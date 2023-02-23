@@ -36,8 +36,8 @@ function plot_frame_rotation(R1, R0)
     end
     title("Frame rotation")
     lg=legend("$X_{base}$", "$Y_{base}$", "$Z_{base}$", "$X^\prime$", "$Y^\prime$", "$Z^\prime$");
-    lg.Interpreter = "latex";
-    grid on; grid minor;
+%     lg.Interpreter = "latex";
+%     grid on; grid minor;
     axis equal;
     xlabel('x');
     ylabel('y');

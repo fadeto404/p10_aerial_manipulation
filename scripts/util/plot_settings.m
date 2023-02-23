@@ -9,14 +9,17 @@ set(groot, 'defaultStairLineWidth', 1)
 % Grid settings
 set(groot, 'defaultAxesXGrid', 'on')
 set(groot, 'defaultAxesYGrid', 'on')
+set(groot, 'defaultAxesZGrid', 'on')
 set(groot, 'defaultAxesXMinorGrid', 'on', 'defaultAxesXMinorGridMode','manual')
 set(groot, 'defaultAxesYMinorGrid', 'on', 'defaultAxesYMinorGridMode','manual')
+set(groot, 'defaultAxesZMinorGrid', 'on', 'defaultAxesZMinorGridMode','manual')
 set(groot, 'defaultAxesMinorGridAlpha', 0.25)
 set(groot, 'defaultAxesMinorGridColor', [0.1, 0.1, 0.1])
 
 % Tick settings
 set(groot, 'defaultAxesXMinorTick', 'on')
 set(groot, 'defaultAxesYMinorTick', 'on')
+set(groot, 'defaultAxesZMinorTick', 'on')
 set(groot, 'defaultAxesTickLabelInterpreter', 'latex')
 set(groot, 'defaultAxesXAxisLocation', 'bottom')
 set(groot, 'defaultAxesYAxisLocation', 'left')
@@ -29,9 +32,9 @@ set(groot, 'defaultTextInterpreter', 'latex')
 set(groot, 'defaultTextFontSize', 10)
 set(groot, 'defaultAxesLabelFontSizeMultiplier', 1.4000)
 set(groot, 'defaultAxesTitleFontSizeMultiplier', 1.6000)
-LABEL_FONT_SIZE = 14;
-TITLE_FONT_SIZE = 16;
-SGTITLE_FONT_SIZE = 20;
+% LABEL_FONT_SIZE = 14;
+% TITLE_FONT_SIZE = 16;
+% SGTITLE_FONT_SIZE = 20;
 
 %% Don't forget titles, etc.
 % title('A title: $\theta$', 'FontSize', TITLE_FONT_SIZE)
