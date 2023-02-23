@@ -12,6 +12,7 @@ xlabel('Time [s]');
 ylabel('f(t) [-]');
 xlim([min(t), max(t)]);
 
+% Requires "Current folder" to be the "examples/" folder
 run ../util/plot_settings.m
 figure(2); hold on;
 plot(t, a, t, b, t, c);
