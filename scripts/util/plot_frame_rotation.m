@@ -9,9 +9,9 @@ function plot_frame_rotation(R1, R0)
     y = R0*[0;1;0];
     z = R0*[0;0;1];
 
-    x_new = R1*x;
-    y_new = R1*y;
-    z_new = R1*z;
+    x_new = R1'*x;
+    y_new = R1'*y;
+    z_new = R1'*z;
     
     % Debug
 %     x_new'*y_new
@@ -33,4 +33,7 @@ function plot_frame_rotation(R1, R0)
     lg.Interpreter = "latex";
     grid on; grid minor;
     axis equal;
+    xlabel('x');
+    ylabel('y');
+    zlabel('z');
 end
