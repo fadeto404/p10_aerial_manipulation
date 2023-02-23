@@ -9,14 +9,20 @@ function plot_frame_rotation(R1, R0)
     y = R0*[0;1;0];
     z = R0*[0;0;1];
 
+    % Position of P in B when starting in A. Rotation matrix is expected to
+    % be ^A_B{R}, which is what the ext_rot_mat_xyz.m provides
+    % ^B{P} = ^A_B{R}^T * ^A{P} = ^B_A{R} * ^A{P}
     x_new = R1'*x;
     y_new = R1'*y;
     z_new = R1'*z;
     
-    % Debug
-%     x_new'*y_new
-%     x_new'*z_new
-%     y_new'*z_new
+    % Debug: check the constraints
+%     x_new'*y_new == 0
+%     x_new'*z_new == 0
+%     y_new'*z_new == 0
+%     norm(x_new) == 1
+%     norm(y_new) == 1
+%     norm(z_new) == 1
 
     figure; hold on;
     colors = ['r'; 'g'; 'b'];
