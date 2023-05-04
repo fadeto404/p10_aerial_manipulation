@@ -32,9 +32,10 @@ set(groot, 'defaultTextInterpreter', 'latex')
 set(groot, 'defaultTextFontSize', 10)
 set(groot, 'defaultAxesLabelFontSizeMultiplier', 1.4000)
 set(groot, 'defaultAxesTitleFontSizeMultiplier', 1.6000)
-% LABEL_FONT_SIZE = 14;
-% TITLE_FONT_SIZE = 16;
-% SGTITLE_FONT_SIZE = 20;
+LEGEND_FONT_SIZE = 12;
+LABEL_FONT_SIZE = 14;
+TITLE_FONT_SIZE = 16;
+SGTITLE_FONT_SIZE = 20;
 
 %% Don't forget titles, etc.
 % title('A title: $\theta$', 'FontSize', TITLE_FONT_SIZE)
