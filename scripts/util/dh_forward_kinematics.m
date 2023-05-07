@@ -30,6 +30,6 @@ for i=1:m
            sin(th_i)*c_al_i, cos(th_i)*c_al_i, -s_al_i, -d_i*s_al_i;
            sin(th_i)*s_al_i, cos(th_i)*s_al_i, c_al_i, d_i*c_al_i;
            0, 0, 0, 1];
-    T_ee = T_ee*T(:,:,i);
+    T_ee = simplify(T_ee*T(:,:,i));
 end
 end
