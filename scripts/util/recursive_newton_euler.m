@@ -60,39 +60,41 @@ z = [0;0;1];                % joint axis in local frame (z-vector)
 % Outward iteration/forward pass (not to be confused with forward dynamics)
 for i=2:n+1
     % Angular velocity of link
-    om(:,i) = transpose(R(:,:,i-1)) * om(:,i-1) + q_dot(i-1)*z;
+    om(:,i) = simplify(transpose(R(:,:,i-1)) * om(:,i-1) + q_dot(i-1)*z);
     
     % Angular acceleration of link
-    dom(:,i) = transpose(R(:,:,i-1)) * dom(:,i-1) + q_ddot(i-1)*z + ...
-               transpose(R(:,:,i-1)) * cross(om(:,i-1), q_dot(i-1)*z);
+    dom(:,i) = simplify(transpose(R(:,:,i-1)) * dom(:,i-1) + q_ddot(i-1)*z + ...
+               transpose(R(:,:,i-1)) * cross(om(:,i-1), q_dot(i-1)*z));
     
     % Velocity of link frame
     % v(:, i) = R(:,:,i-1) * v(:,i-1) + cross(om(:,i), p(:,i-1))
 
     % Acceleration of link frame
-    dv(:, i) = transpose(R(:,:,i-1)) * (dv(:,i-1) + cross(dom(:,i-1), p(:,i-1)) + ...
-               cross(om(:,i-1), cross(om(:,i-1), p(:,i-1))));
+    dv(:, i) = simplify(transpose(R(:,:,i-1)) * (dv(:,i-1) + ...
+               cross(dom(:,i-1), p(:,i-1)) + ...
+               cross(om(:,i-1), cross(om(:,i-1), p(:,i-1)))));
     
     % Acceleration of link CoM
-    dv_c(:,i-1)= cross(dom(:,i), r(:,i-1)) + ...
-                 cross(om(:,i), cross(om(:,i), r(:,i-1))) + simplify(dv(:,i));
+    dv_c(:,i-1)= simplify(cross(dom(:,i), r(:,i-1)) + ...
+                 cross(om(:,i), cross(om(:,i), r(:,i-1))) + ...
+                 dv(:,i));
 
     % Force acting on link CoM
-    F(:,i-1) = m(i-1) * dv_c(:,i-1);
+    F(:,i-1) = simplify(m(i-1) * dv_c(:,i-1));
 
     % Torque acting on link CoM
-    N_hat(:,i-1) = I(:,:,i-1) * dom(:,i) + ...
-                   cross(dom(:,i), I(:,:,i-1) * dom(:,i));
+    N_hat(:,i-1) = simplify(I(:,:,i-1) * dom(:,i) + ...
+                   cross(dom(:,i), I(:,:,i-1) * dom(:,i)));
 end
 
 % Inward iteration/backward pass
 for i=n:-1:1
-    f(:,i) = (R(:,:,i+1)) * f(:,i+1) + F(:,i);
+    f(:,i) = simplify(R(:,:,i+1) * f(:,i+1) + F(:,i));
 
-    n_hat(:,i) = N_hat(:,i) + (R(:,:,i+1)) * n_hat(:,i+1) + ...
+    n_hat(:,i) = simplify(N_hat(:,i) + R(:,:,i+1) * n_hat(:,i+1) + ...
                  cross(r(:,i), F(:,i)) + ...
-                 cross(p(:,i+1), (R(:,:,i+1)) * f(:,i+1));
+                 cross(p(:,i+1), (R(:,:,i+1)) * f(:,i+1)));
 
     % Joint torque
-    tau(i) = transpose(n_hat(:,i)) * z;
+    tau(i) = simplify(transpose(n_hat(:,i)) * z);
 end
