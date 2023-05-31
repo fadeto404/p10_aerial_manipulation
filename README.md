@@ -1,2 +1,2 @@
-# p10_aerial_manipulation
-Repository for thesis code regarding aerial manipulation
+# Control of an Aerial Manipulator for Pick-and-Place
+Repository for thesis code regarding aerial manipulation.
