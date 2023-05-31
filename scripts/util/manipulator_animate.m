@@ -58,9 +58,9 @@ function manipulator_animate(dh_table, Theta, fig_no)
         % Plot links
         clf(fig_no);
         hold on;
-        xlabel('$X_w$')
-        ylabel('$Y_w$')
-        zlabel('$Z_w$')
+        xlabel('$X_\mathcal{W}$')
+        ylabel('$Y_\mathcal{W}$')
+        zlabel('$Z_\mathcal{W}$')
         title('2-link manipulator in 3D')
         view(3);
         plot3([p0(1), p1(1)], [p0(2), p1(2)], [p0(3), p1(3)], 'k', 'LineWidth', 2);

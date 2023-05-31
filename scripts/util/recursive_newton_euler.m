@@ -11,7 +11,6 @@ function [tau, f, n_hat] = recursive_newton_euler(q, q_dot, q_ddot, m, r, p, I, 
 %   r:      3 x (n+1) matrix of base position and link COM positions in the link frame
 %   p:      3 x (n+1) matrix of joint positions in link frame and last is ee frame
 %   I:      3 x 3 x n array of link inertias in the CoM frame (displaced link frame)
-%   e:      3 x n matrix of joint axes in the link frame
 %   R:      3 x 3 x n array of rotation matrices from base to link i
 %   om0:    3 x 1 vector of base frame angular velocity
 %   dom0:   3 x 1 vector of angular acceleration of base frame
@@ -44,8 +43,8 @@ z = [0;0;1];                % joint axis in local frame (z-vector)
 % dom(:,i) = i+1(dot w)_i+1 
 % v(:,i) = ?
 % dv(:,i) = i+1(dot v)_i+1
-% R(:,:,i-1) = ^{i+1}_i(R)
-% transpose(R(:,:,i-1)) = ^i_{i+1}(R)
+% R(:,:,i-1) = ^i_{i+1}(R)
+% transpose(R(:,:,i-1)) = ^{i+1}_i(R)
 % p(:,i) = i(p)_i+1
 % ===============================
 % matlab i-1 = algorithm i+1
@@ -64,7 +63,7 @@ for i=2:n+1
     
     % Angular acceleration of link
     dom(:,i) = simplify(transpose(R(:,:,i-1)) * dom(:,i-1) + q_ddot(i-1)*z + ...
-               transpose(R(:,:,i-1)) * cross(om(:,i-1), q_dot(i-1)*z));
+               cross(transpose(R(:,:,i-1)) *om(:,i-1), q_dot(i-1)*z));
     
     % Velocity of link frame
     % v(:, i) = R(:,:,i-1) * v(:,i-1) + cross(om(:,i), p(:,i-1))

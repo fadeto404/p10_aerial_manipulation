@@ -15,7 +15,7 @@ servocurrent_data = [0.14; 0.028*8; 12*0.028; 16*0.028; 20.3*0.028; 24.7*0.028; 
 %% Least squares model fitting
 A_throttle = throttle_data;
 A_rpm = rpm_data.^2;
-rpm_model = A_throttle\rpm_data;
+k_r = A_throttle\rpm_data;
 k_tau = A_rpm\torque_data;
 k_t = A_rpm\thrust_data;
 A_servocurrent = servocurrent_data;
@@ -31,7 +31,7 @@ i_plot = 0:0.01:1.3; % Current for plotting model
 
 figure; hold on;
 scatter(throttle_data, rpm_data)
-plot(x_plot, rpm_model(1)*x_plot)
+plot(x_plot, k_r(1)*x_plot)
 title('RPM model')
 xlabel('Throttle [\%]')
 ylabel('RPM [Hz]')
@@ -39,7 +39,7 @@ hold off;
 
 figure; hold on;
 scatter(throttle_data, torque_data)
-plot(x_plot, k_tau(1)*(rpm_model*x_plot).^2)
+plot(x_plot, k_tau(1)*(k_r*x_plot).^2)
 title('Torque model')
 xlabel('Throttle [\%]')
 ylabel('Torque [Nm]')
@@ -47,7 +47,7 @@ hold off;
 
 figure; hold on;
 scatter(throttle_data, thrust_data)
-plot(x_plot, k_t(1)*(rpm_model*x_plot).^2)
+plot(x_plot, k_t(1)*(k_r*x_plot).^2)
 title('Thrust model')
 xlabel('Throttle [\%]')
 ylabel('Thrust [kg]')

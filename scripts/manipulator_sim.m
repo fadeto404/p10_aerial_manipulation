@@ -15,7 +15,7 @@ L2 = 0.15; % Distance from joint 2 to tool [m]
 J1 = diag(sym('J1_', [3,1]));
 J2 = diag(sym('J2_', [3,1]));
 J1 = eye(3);
-J2 = eye(3);
+J2 = 0.1*eye(3);
 bigJ(:,:,1) = J1;
 bigJ(:,:,2) = J2;
 
@@ -43,7 +43,7 @@ T_12 = matlabFunction(T_i_sym(:,:,2));
 T_2t = matlabFunction(T_i_sym(:,:,3));
 
 % Frame rotations
-R0 = eye(3);
+R0 = T_w0(1:3,1:3);
 R1_sym = T_i_sym(1:3,1:3,1);
 R2_sym = R1_sym*T_i_sym(1:3,1:3,2);
 R3_sym = T_0t_sym(1:3,1:3);
@@ -117,8 +117,8 @@ g_vec = -sym([0;0;-9.816]);
                                          m_vec, P_ci, P_i, bigJ, bigR, ini,ini,ini,g_vec)
 
 % Counting operations (just for fun)
-num_terms = numel(regexp(char(tau), '[+-*/]?'))
-simplify(subs(tau, ddth_sym(2), 0))
+num_terms = numel(regexp(char(tau_eq), '[+-*/]?'))
+simplify(subs(tau_eq, ddth_sym(2), 0))
 
 forward_dyns = solve(simplify(tau_eq) == joint_torques, [ddth_sym(1), ddth_sym(2)])
 dstate = matlabFunction([forward_dyns.ddtheta1; forward_dyns.ddtheta2])
@@ -172,21 +172,23 @@ dstate = matlabFunction([forward_dyns.ddtheta1; forward_dyns.ddtheta2])
 th2 = pi/3:0.01:pi;
 th1 = -pi/4 * ones(1, length(th2));
 
-th1_0 = -pi/4;
-th2_0 = pi/3;
+th1_0 = 0;
+th2_0 = 0;
 dth1_0 = 0;
 dth2_0 = 0;
-u = [0.1; -0.5];
+u = [0; 0];
 
 x_sim(:,1) = [th1_0; th2_0; dth1_0; dth2_0];
-dx_sim(:,1) = [x_sim(3:4,1); dstate(u(1),u(2), x_sim(3,1), x_sim(4,1), 1, x_sim(2,1))];
+dx_sim(:,1) = [x_sim(3:4,1); dstate(u(1),u(2), x_sim(3,1), x_sim(4,1), 5, x_sim(2,1))];
 
 
 dt = 0.001;
-for i=2:20000
+tic
+for i=2:2000
     x_sim(:,i) = x_sim(:,i-1) + dt*dx_sim(:,i-1);
     dx_sim(:,i) = [x_sim(3:4,i); dstate(u(1),u(2), x_sim(3,i), x_sim(4,i),1,x_sim(2,i))];
 end
+toc
 
 % 
 % pd = [0.03422; 0.15];
@@ -201,7 +203,8 @@ end
 
 Theta_sim = [x_sim(1,:); x_sim(2,:)];
 
-manipulator_animate(dh_table, Theta_sim, 1)
+% manipulator_animate(dh_table, Theta_sim, 1)
+manipulator_animate(dh_table, x_sim(:,1), 2)
 
 %% Plotting of results
 T_sim = dt*(1:length(x_sim));

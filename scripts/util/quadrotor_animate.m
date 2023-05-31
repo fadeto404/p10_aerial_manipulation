@@ -59,7 +59,7 @@ function quadrotor_animate(pos, att, u, S, t_s, fig_no)
         Bs4 = rod_qv_rotate(att(:,i), S(:,4));
         render_list = [render_list, [x0; y0; z0; Bs1], [x0; y0; z0; Bs2], [x0; y0; z0; Bs3], [x0; y0; z0; Bs4]];
         
-        % Thrust force
+        % Thrust force/acceleration vector
         F_t = rod_qv_rotate((att(:,i)), u(:,i));
         render_list = [render_list, [x0; y0; z0; F_t]];
         
